@@ -1,0 +1,622 @@
+{
+  "captured_at_utc": "2026-10-25T02:46:29.572165+00:00",
+  "scope": "Read-only static checks of two public snapshots. Not a false-positive rate or runtime benchmark.",
+  "snapshots": [
+    {
+      "repository": "RockENZO/NLP-Cyber-Harm-Detection",
+      "commit": "9e84da28919442851d21cd0bbcc2e0a81008c76c",
+      "report": {
+        "schemaVersion": 1,
+        "file": "README.md",
+        "status": "partial",
+        "summary": {
+          "checked": 16,
+          "errors": 0,
+          "passed": 16,
+          "skipped": 19
+        },
+        "findings": [
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 13,
+            "subject": "https://github.com/RockENZO/data#files-and-schema",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 16,
+            "subject": "GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/RockENZO/NLP-Cyber-Harm-Detection.git",
+            "message": "Setup or shell state is not simulated; working directory becomes unknown.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 17,
+            "subject": "cd NLP-Cyber-Harm-Detection",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 18,
+            "subject": "python -m venv .venv",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 19,
+            "subject": "source .venv/bin/activate",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 20,
+            "subject": "python -m pip install -r evaluation/requirements.txt",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 21,
+            "subject": "python evaluation/performance_study.py prepare",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 22,
+            "subject": "python evaluation/performance_study.py select",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 23,
+            "subject": "python evaluation/performance_study.py evaluate",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 24,
+            "subject": "python evaluation/predict_study.py --text 'Your appointment is confirmed for tomorrow.'",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 27,
+            "subject": "#improved-nine-class-classifier-study",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 34,
+            "subject": "GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/RockENZO/NLP-Cyber-Harm-Detection.git",
+            "message": "Setup or shell state is not simulated; working directory becomes unknown.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 35,
+            "subject": "cd NLP-Cyber-Harm-Detection",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 36,
+            "subject": "git lfs install",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 37,
+            "subject": "git lfs pull --include=\"models/bert_model/*\"",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 38,
+            "subject": "python -m venv .venv",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 39,
+            "subject": "source .venv/bin/activate",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 40,
+            "subject": "python -m pip install -r requirements.txt",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 41,
+            "subject": "python demos/quick_demo.py --text \"Your appointment is confirmed for tomorrow\"",
+            "message": "Working directory is unknown; start a separate code block for repository-root checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 48,
+            "subject": "docs/EVALUATION.md",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/EVALUATION.md",
+            "suggestions": []
+          },
+          {
+            "rule": "RR003",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 53,
+            "subject": "python evaluation/evaluate_predictions.py held_out_predictions.csv --output evaluation.json",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/evaluate_predictions.py",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 60,
+            "subject": "docs/EVALUATION.md",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/EVALUATION.md",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 71,
+            "subject": "docs/PROJECT_HISTORY.md",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/PROJECT_HISTORY.md",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 87,
+            "subject": "evaluation/reports/source_baseline_20260930.json",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/reports/source_baseline_20260930.json",
+            "suggestions": []
+          },
+          {
+            "rule": "RR004",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 92,
+            "subject": "pip install -r evaluation/requirements.txt",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/requirements.txt",
+            "suggestions": []
+          },
+          {
+            "rule": "RR003",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 93,
+            "subject": "python evaluation/source_baseline.py  --data ../data/artifacts/verified/final_fraud_detection_dataset.csv  --provenance ../data/artifacts/verified/provenance.jsonl  --output-dir runs/source-baseline",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/source_baseline.py",
+            "suggestions": []
+          },
+          {
+            "rule": "RR003",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 97,
+            "subject": "python evaluation/evaluate_predictions.py runs/source-baseline/predictions.csv  --labels evaluation/binary_labels.json --output runs/source-baseline/scored.json",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/evaluate_predictions.py",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 120,
+            "subject": "evaluation/reports/nine_class_split_20260930.json",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/reports/nine_class_split_20260930.json",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 120,
+            "subject": "evaluation/reports/nine_class_selection_20260930.json",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/reports/nine_class_selection_20260930.json",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 120,
+            "subject": "evaluation/reports/nine_class_test_20260930.json",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/reports/nine_class_test_20260930.json",
+            "suggestions": []
+          },
+          {
+            "rule": "RR004",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 124,
+            "subject": "pip install -r evaluation/requirements.txt",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/requirements.txt",
+            "suggestions": []
+          },
+          {
+            "rule": "RR003",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 125,
+            "subject": "python evaluation/performance_study.py prepare",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/performance_study.py",
+            "suggestions": []
+          },
+          {
+            "rule": "RR003",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 126,
+            "subject": "python evaluation/performance_study.py select",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/performance_study.py",
+            "suggestions": []
+          },
+          {
+            "rule": "RR003",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 127,
+            "subject": "python evaluation/performance_study.py evaluate",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/performance_study.py",
+            "suggestions": []
+          },
+          {
+            "rule": "RR003",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 128,
+            "subject": "python evaluation/predict_study.py --text 'Your appointment is confirmed for tomorrow.'",
+            "message": "File exists in this snapshot.",
+            "evidence": "evaluation/predict_study.py",
+            "suggestions": []
+          }
+        ],
+        "scope": "Static snapshot checks only. Commands are never executed. File existence and script declarations do not prove runtime success. Unsupported constructs are explicitly skipped."
+      }
+    },
+    {
+      "repository": "RockENZO/Roadster-and-Beyond",
+      "commit": "720b99b8a542ba6011a467fff68c786f0bd4a2ca",
+      "report": {
+        "schemaVersion": 1,
+        "file": "README.md",
+        "status": "partial",
+        "summary": {
+          "checked": 15,
+          "errors": 0,
+          "passed": 15,
+          "skipped": 8
+        },
+        "findings": [
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 5,
+            "subject": "docs/demo.gif",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/demo.gif",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 7,
+            "subject": "docs/demo.mp4",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/demo.mp4",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 7,
+            "subject": "tools/demo",
+            "message": "Directory exists; anchors and rendering are not checked.",
+            "evidence": "tools/demo",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 17,
+            "subject": "docs/compare/01-side-wing-up.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/01-side-wing-up.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 17,
+            "subject": "docs/compare/02-front-three-quarter-lamps-up.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/02-front-three-quarter-lamps-up.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 19,
+            "subject": "docs/compare/03-rear-wing-brake-lights.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/03-rear-wing-brake-lights.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 19,
+            "subject": "docs/compare/04-diffuser-nozzles-fans.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/04-diffuser-nozzles-fans.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 21,
+            "subject": "docs/compare/05-trunk-gas-sphere.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/05-trunk-gas-sphere.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 21,
+            "subject": "docs/compare/09-doors-and-wing-up.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/09-doors-and-wing-up.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 23,
+            "subject": "docs/compare/06-yoke-and-touchscreen.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/06-yoke-and-touchscreen.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 23,
+            "subject": "docs/compare/07-touchscreen-ui.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/07-touchscreen-ui.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 26,
+            "subject": "docs/compare/10-headlamp-panel-dropped.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/10-headlamp-panel-dropped.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 30,
+            "subject": "docs/compare/08-first-person-cockpit-in-game.jpg",
+            "message": "File exists in this snapshot.",
+            "evidence": "docs/compare/08-first-person-cockpit-in-game.jpg",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 37,
+            "subject": "npm install",
+            "message": "Command is outside the supported static checks.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR002",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 38,
+            "subject": "npm run dev      # http://localhost:5173",
+            "message": "Script is declared; its body is not executed.",
+            "evidence": "package.json",
+            "suggestions": []
+          },
+          {
+            "rule": "RR002",
+            "outcome": "pass",
+            "file": "README.md",
+            "line": 39,
+            "subject": "npm run build    # static site in dist/",
+            "message": "Script is declared; its body is not executed.",
+            "evidence": "package.json",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 107,
+            "subject": "https://driveteslacanada.ca/news/tesla-roadster-fan-suction-system-downforce/",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 107,
+            "subject": "https://teslanorth.com/2026/10/16/tesla-roadster-moravy-hagerty-engineering-interview/",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 108,
+            "subject": "https://github.com/bacinger/f1-circuits",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 109,
+            "subject": "https://www.foxbusiness.com/technology/teslas-new-roadster-makes-flying-debut-hitting-60-mph-under-second",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 109,
+            "subject": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR001",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 109,
+            "subject": "https://www.explainx.ai/blog/tesla-roadster-event-recap-everything-announced-not-announced-october-15-2026",
+            "message": "External, anchor-only or host-root URL; not fetched.",
+            "evidence": "",
+            "suggestions": []
+          },
+          {
+            "rule": "RR000",
+            "outcome": "skip",
+            "file": "README.md",
+            "line": 115,
+            "subject": "unlabelled block",
+            "message": "Non-shell code block is not analyzed.",
+            "evidence": "",
+            "suggestions": []
+          }
+        ],
+        "scope": "Static snapshot checks only. Commands are never executed. File existence and script declarations do not prove runtime success. Unsupported constructs are explicitly skipped."
+      }
+    }
+  ]
+}
