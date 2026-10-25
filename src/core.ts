@@ -78,6 +78,10 @@ export async function analyze(workspace: Workspace, readme = 'README.md'): Promi
       add(rule, 'error', line, subject, kind === 'blocked' ? 'Symlink or special file is not inspected.' : 'Expected file is absent from this snapshot.', `${path}: ${kind}. Generated/downloaded files may require a documented prerequisite.`, candidates);
     }
   }
+  async function checkRequirement(target: string, line: number, subject: string, cwd: string) {
+    if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(target)) { add('RR004', 'skip', line, subject, 'Remote or scheme-based requirements are not fetched or checked.'); return; }
+    await checkFile('RR004', cwd, target, line, subject);
+  }
   for (const n of nodes) {
     if (!['link', 'image', 'linkReference', 'imageReference'].includes(n.type)) continue;
     const url = n.url ?? definitions.get(n.identifier ?? ''); const line = n.position?.start.line ?? 1;
@@ -109,7 +113,7 @@ export async function analyze(workspace: Workspace, readme = 'README.md'): Promi
       if (cwd === null) { add('RR000', 'skip', line, raw, 'Working directory is unknown; start a separate code block for repository-root checks.'); continue; }
       const command = tokens[0];
       if (command === 'cd') {
-        if (tokens.length !== 2) { add('RR005', 'skip', line, raw, 'Only a single literal cd destination is supported.'); cwd = null; continue; }
+        if (tokens.length !== 2 || !tokens[1] || tokens[1].startsWith('-')) { add('RR005', 'skip', line, raw, 'Only a single literal cd destination is supported.'); cwd = null; continue; }
         const next = resolvePath(cwd, tokens[1]!);
         const kind = next === null ? 'blocked' : await workspace.inspect(next);
         add('RR005', kind === 'directory' ? 'pass' : 'error', line, raw, kind === 'directory' ? 'Working directory resolved.' : 'Directory is absent or blocked in this snapshot.', `${next ?? 'outside root'}: ${kind}`);
@@ -120,6 +124,9 @@ export async function analyze(workspace: Workspace, readme = 'README.md'): Promi
       }
       if (['npm', 'pnpm', 'yarn'].includes(command!) && tokens[1] === 'run') {
         if (!tokens[2] || tokens[2].startsWith('-') || tokens.some(t => /^(?:--workspace(?:=|$)|--workspaces$|-w$|--filter(?:=|$))/.test(t))) { add('RR002', 'skip', line, raw, 'Workspace selectors and dynamic script names are not supported.'); continue; }
+        const separator = tokens.indexOf('--', 3);
+        const options = tokens.slice(3, separator < 0 ? undefined : separator);
+        if (options.some(t => t.startsWith('-'))) { add('RR002', 'skip', line, raw, 'Package-manager options (including directory overrides) are not interpreted.'); continue; }
         let dir = cwd; let manifest = '';
         while (true) {
           const candidate = resolvePath(dir, 'package.json')!; const kind = await workspace.inspect(candidate);
@@ -144,8 +151,8 @@ export async function analyze(workspace: Workspace, readme = 'README.md'): Promi
           if (arg === '-r' || arg === '--requirement') {
             const value = pip[++j];
             if (!value || value.startsWith('-')) add('RR004', 'error', line, raw, 'Requirements flag needs a literal filename.');
-            else await checkFile('RR004', cwd, value, line, raw);
-          } else if (arg.startsWith('--requirement=')) await checkFile('RR004', cwd, arg.slice(14), line, raw);
+            else await checkRequirement(value, line, raw, cwd);
+          } else if (arg.startsWith('--requirement=')) await checkRequirement(arg.slice(14), line, raw, cwd);
         }
         continue;
       }

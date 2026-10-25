@@ -86,3 +86,27 @@ test('parenthesized shell syntax is skipped without claiming file verification',
  const r=await scan(shell('python missing.py (invalid)'));
  assert.equal(r.summary.errors,0);assert.equal(r.summary.skipped,1);
 });
+
+test('package-manager directory options never inspect the wrong manifest',async()=>{
+ for(const cmd of ['npm run dev --prefix frontend','npm run dev --prefix=frontend','pnpm run dev --dir frontend','pnpm run dev -Cfrontend','yarn run dev --cwd frontend','npm run dev --if-present']){
+  for(const scripts of [{},{dev:'vite'}]){
+   const r=await scan(shell(cmd),{'package.json':JSON.stringify({scripts}),'frontend/package.json':'{"scripts":{"dev":"vite"}}'});
+   assert.equal(r.summary.errors,0);assert.equal(r.summary.passed,0);assert.equal(r.summary.skipped,1);
+  }
+ }
+ const forwarded=await scan(shell('npm run dev -- --prefix frontend'),{'package.json':'{"scripts":{"dev":"vite"}}'});
+ assert.equal(forwarded.summary.passed,1);
+});
+test('remote requirements are unsupported without local reads',async()=>{
+ for(const command of ['pip install -r https://example.com/requirements.txt','pip3 install --requirement http://example.com/r.txt','python -m pip install --requirement=https://example.com/r.txt','pip install -r file:///tmp/r.txt']){
+  const r=await scan(shell(command));assert.equal(r.summary.errors,0);assert.equal(r.summary.skipped,1);
+ }
+ const mixed=await scan(shell('pip install -r https://example.com/r.txt -r local.txt'),{'local.txt':''});
+ assert.equal(mixed.summary.errors,0);assert.equal(mixed.summary.passed,1);assert.equal(mixed.summary.skipped,1);
+});
+test('cd previous-directory and flags invalidate cwd instead of reporting missing files',async()=>{
+ for(const destination of ['-','-P','--','""']){
+  const r=await scan(shell('cd app\ncd '+destination+'\npython run.py'),{'app/keep.txt':'','run.py':''});
+  assert.equal(r.summary.errors,0);assert.equal(r.summary.passed,1);assert.equal(r.summary.skipped,2);
+ }
+});
