@@ -19,3 +19,9 @@ test('Action does not fail valid directory overrides, remote requirements or cd 
  const output=join(d,'output');const p=spawnSync(process.execPath,[...nodeArgs,'src/action.ts'],{encoding:'utf8',env:{...process.env,GITHUB_WORKSPACE:d,INPUT_ROOT:'.',GITHUB_OUTPUT:output}});
  assert.equal(p.status,0);assert.match(await readFile(output,'utf8'),/errors=0\nskipped=4\nstatus=partial/);assert.ok(!p.stdout.includes('::error'));
 }));
+test('CLI and Action preserve coverage instead of failing inactive shell branches',()=>fixture(async d=>{
+ await writeFile(join(d,'README.md'),'```bash\nif false\nthen\npython optional.py\nfi\n```');
+ const c=cli(d,['--format','json']);assert.equal(c.status,0);const result=JSON.parse(c.stdout);assert.equal(result.status,'partial');assert.equal(result.summary.errors,0);assert.equal(result.summary.skipped,4);
+ const output=join(d,'output');const action=spawnSync(process.execPath,[...nodeArgs,'src/action.ts'],{encoding:'utf8',env:{...process.env,GITHUB_WORKSPACE:d,INPUT_ROOT:'.',GITHUB_OUTPUT:output}});
+ assert.equal(action.status,0);assert.ok(!action.stdout.includes('::error'));assert.match(await readFile(output,'utf8'),/errors=0\nskipped=4\nstatus=partial/);
+}));
