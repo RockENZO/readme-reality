@@ -5,7 +5,7 @@
 离线检查本地链接、npm/pnpm/yarn 声明脚本、Python 脚本路径与依赖文件。输出行号、检查依据和真实候选路径。不调用模型、不需要密钥、不上传代码，也不会执行 README 命令。
 
 - [互动演示](https://rockenzo.github.io/readme-reality/)使用明确标注的虚构快照，结果由真实共享引擎计算。
-- Node.js 22.12+；从 GitHub Release 下载并解压 `readme-reality-0.1.0.tgz`。
+- Node.js 22.12+；从 GitHub Release 下载并解压 `readme-reality-0.1.1.tgz`。
 - 在解压的 `package` 目录中运行 `node dist/cli.mjs check /你的仓库`，或添加 `--format json`。
 - 目前没有发布 npm 包，不要使用假定存在的 npx 安装入口。
 

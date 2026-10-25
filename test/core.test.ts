@@ -110,3 +110,29 @@ test('cd previous-directory and flags invalidate cwd instead of reporting missin
   assert.equal(r.summary.errors,0);assert.equal(r.summary.passed,1);assert.equal(r.summary.skipped,2);
  }
 });
+
+test('conditional, loop and function bodies are never interpreted as unconditional commands',async()=>{
+ for(const command of [
+  'if false\nthen\npython optional.py\nfi',
+  'if test -d optional\nthen\ncd optional\npython run.py\nfi',
+  'for item in one two\ndo\npython optional.py\ndone',
+  'while false\ndo\npython optional.py\ndone',
+  'until true\ndo\npython optional.py\ndone',
+  'function optional\n{\npython optional.py\n}',
+  'case value in\npattern)\npython optional.py\n;;\nesac',
+  '! cd optional\npython optional.py',
+  'time cd optional\npython optional.py',
+ ]){
+  const r=await scan(shell(command));assert.equal(r.summary.errors,0,command);assert.equal(r.summary.passed,0,command);assert.ok(r.summary.skipped>0,command);assert.equal(r.status,'partial');
+ }
+});
+test('control-flow uncertainty persists until a new fence, preserving source lines',async()=>{
+ const r=await scan(shell('python known.py\nif false\nthen\npython optional.py\nfi\npython after.py')+'\n\n'+shell('python missing.py'),{'known.py':''});
+ assert.equal(r.summary.passed,1);assert.equal(r.summary.errors,1);assert.equal(r.summary.skipped,5);
+ assert.equal(r.findings.find(f=>f.outcome==='error')?.line,11);
+ assert.match(r.findings.find(f=>f.subject==='if false')!.message,/control flow/);
+});
+test('keywords in script paths, script names and quoted arguments retain normal checks',async()=>{
+ const r=await scan(shell('npm run if\npython "while.py"\npip install -r then.txt'),{'package.json':'{"scripts":{"if":"node index.js"}}','while.py':'','then.txt':''});
+ assert.equal(r.summary.errors,0);assert.equal(r.summary.passed,3);
+});

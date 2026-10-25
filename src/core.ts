@@ -112,6 +112,13 @@ export async function analyze(workspace: Workspace, readme = 'README.md'): Promi
       if (!tokens.length) continue;
       if (cwd === null) { add('RR000', 'skip', line, raw, 'Working directory is unknown; start a separate code block for repository-root checks.'); continue; }
       const command = tokens[0];
+      // Unquoted shell reserved words introduce control flow or execution scopes.
+      // We do not evaluate branches/loops, so no later command in this fence is
+      // safe to interpret as an unconditional repository-root instruction.
+      if (/^(?:if|then|elif|else|fi|for|select|while|until|do|done|case|in|esac|function|coproc|time|!)(?:\s|$)/.test(raw)) {
+        add('RR000', 'skip', line, raw, 'Shell control flow is not simulated; subsequent working directory is unknown.');
+        cwd = null; continue;
+      }
       if (command === 'cd') {
         if (tokens.length !== 2 || !tokens[1] || tokens[1].startsWith('-')) { add('RR005', 'skip', line, raw, 'Only a single literal cd destination is supported.'); cwd = null; continue; }
         const next = resolvePath(cwd, tokens[1]!);

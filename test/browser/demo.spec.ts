@@ -19,3 +19,7 @@ test('editable Markdown is text, not executable HTML; empty and error states',as
  await editor.fill('[<img src=x onerror=alert(1)>](missing.md)');await page.getByRole('button',{name:'Run check'}).click();await expect(page.locator('#status-pill')).toHaveText('Needs attention');expect(await page.locator('#findings img').count()).toBe(0);
  await editor.fill('x'.repeat(2_000_001));await page.getByRole('button',{name:'Run check'}).click();await expect(page.locator('#status-pill')).toHaveText('Input error');await expect(page.locator('#result-summary')).toContainText('2 MB');
 });
+test('conditional commands display honest partial coverage in the browser',async({page})=>{
+ await page.goto('');await page.getByRole('textbox',{name:'README source'}).fill('```bash\nif false\nthen\npython optional.py\nfi\n```');
+ await page.getByRole('button',{name:'Run check'}).click();await expect(page.locator('#status-pill')).toHaveText('Partial coverage');await expect(page.locator('#result-summary')).toContainText('NOT CHECKED');await expect(page.locator('#findings')).toContainText('Shell control flow is not simulated');await expect(page.locator('#findings .error')).toHaveCount(0);
+});
