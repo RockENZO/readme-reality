@@ -1,0 +1,43 @@
+{
+  "captured_at_utc": "2026-10-25T02:43:29.909Z",
+  "source": "Actual local Chromium screen recording of built Vite site; fictional labelled snapshots, shared engine computed results",
+  "url": "http://127.0.0.1:4173/readme-reality/",
+  "viewport": {
+    "width": 1280,
+    "height": 960
+  },
+  "source_file_sha256": {
+    "src/core.ts": "d1c95c3c44cf84a1b524acecff4ef73fc0fd0eaa8e8e437bec0e664037a979de",
+    "web/main.ts": "584ce8e3741806ff804490cbd087087c4b2c680bedb702a1496b6ea7a121d75e",
+    "web/fixtures.ts": "425d58d06b0fa15ae1bf1d36ea5842d5011c5dc79b35b4c4bdca1365103fd861",
+    "web/style.css": "e27fef9550cac87814dbecf9654acae98012df18204170bcf4295c57f8a59719",
+    "web/index.html": "3f70cb311418f85cf04faccb902715de5ba694e55d055365558adb55c1d20d70"
+  },
+  "editing": "GIF conversion only; no mocked findings, synthetic UI frames or altered result counts",
+  "steps": [
+    "Node broken snapshot and evidence",
+    "Node corrected snapshot",
+    "Python broken snapshot and evidence",
+    "Python corrected snapshot",
+    "Mixed example with partial coverage"
+  ],
+  "raw_video_sha256": "bc4cc59a91f80eab753b03ec1e41a7b57dca1f378157f429532bf77c7cb5fd5f",
+  "outputs": {
+    "gif": {
+      "filename": "demo.gif",
+      "sha256": "cba678cf3dbc4eb4a12f03ca3a18d5e6c3083418a50e4e63ba5c6fe565905bf6",
+      "bytes": 5891502,
+      "duration_seconds": 20.25,
+      "width": 1120,
+      "height": 840
+    },
+    "mp4": {
+      "filename": "readme-reality-demo.mp4",
+      "sha256": "0d34cfb936e34ab39216be6aad20afa6d88a6cc4fc66f55040eb8c1e24337f07",
+      "bytes": 352999,
+      "duration_seconds": 20.24,
+      "width": 1280,
+      "height": 960
+    }
+  }
+}

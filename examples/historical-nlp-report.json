@@ -1,0 +1,509 @@
+{
+  "schemaVersion": 1,
+  "file": "README.md",
+  "status": "failed",
+  "summary": {
+    "checked": 13,
+    "errors": 3,
+    "passed": 10,
+    "skipped": 36
+  },
+  "findings": [
+    {
+      "rule": "RR001",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 3,
+      "subject": "https://github.com/RockENZO/NLP-Cyber-Harm-Detection.git",
+      "message": "External, anchor-only or host-root URL; not fetched.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR001",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 3,
+      "subject": "https://img.shields.io/badge/GitHub-Repository-blue?logo=github",
+      "message": "External, anchor-only or host-root URL; not fetched.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR001",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 15,
+      "subject": "https://github.com/RockENZO/NLP-Cyber-Harm-Detection.git",
+      "message": "External, anchor-only or host-root URL; not fetched.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR001",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 17,
+      "subject": "https://huggingface.co/spaces/RockENZ0/fraud-detection-ai",
+      "message": "External, anchor-only or host-root URL; not fetched.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 72,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "error",
+      "file": "README.md",
+      "line": 106,
+      "subject": "python scripts/prepare_reasoning_data.py  --csv_path final_fraud_detection_dataset.csv  --output_path training_data/fraud_reasoning.jsonl  --format_type multi_task",
+      "message": "Expected file is absent from this snapshot.",
+      "evidence": "scripts/prepare_reasoning_data.py: missing. Generated/downloaded files may require a documented prerequisite.",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "error",
+      "file": "README.md",
+      "line": 112,
+      "subject": "python scripts/train_reasoning_llm.py  --model_name microsoft/Phi-3.5-mini-instruct  --training_data training_data/fraud_reasoning.jsonl  --output_dir models/phi-3.5-fraud-reasoning  --use_4bit --use_lora",
+      "message": "Expected file is absent from this snapshot.",
+      "evidence": "scripts/train_reasoning_llm.py: missing. Generated/downloaded files may require a documented prerequisite.",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "error",
+      "file": "README.md",
+      "line": 119,
+      "subject": "python demos/reasoning_llm_demo.py  --model_path models/phi-3.5-fraud-reasoning  --interactive",
+      "message": "Expected file is absent from this snapshot.",
+      "evidence": "demos/reasoning_llm_demo.py: missing. Generated/downloaded files may require a documented prerequisite.",
+      "suggestions": [
+        "fraud_detection_demo.py",
+        "fraud_reasoning_pipeline.py",
+        "quick_demo.py",
+        "unified_reasoning_demo.py"
+      ]
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 164,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 212,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 280,
+      "subject": "pip install torch transformers pandas numpy matplotlib seaborn jupyter",
+      "message": "Command is outside the supported static checks.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 286,
+      "subject": "jupyter notebook demos/test-unified-bart-joint-enhanced.ipynb",
+      "message": "Command is outside the supported static checks.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 310,
+      "subject": "pip install torch transformers pandas numpy matplotlib seaborn jupyter",
+      "message": "Command is outside the supported static checks.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 315,
+      "subject": "python demos/quick_demo.py",
+      "message": "File exists in this snapshot.",
+      "evidence": "demos/quick_demo.py",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 320,
+      "subject": "jupyter notebook demos/fraud_detection_demo.ipynb",
+      "message": "Command is outside the supported static checks.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 325,
+      "subject": "python demos/fraud_detection_demo.py",
+      "message": "File exists in this snapshot.",
+      "evidence": "demos/fraud_detection_demo.py",
+      "suggestions": []
+    },
+    {
+      "rule": "RR004",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 342,
+      "subject": "pip install -r requirements.txt",
+      "message": "File exists in this snapshot.",
+      "evidence": "requirements.txt",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 347,
+      "subject": "python training/baseline_fraud_detection.py",
+      "message": "File exists in this snapshot.",
+      "evidence": "training/baseline_fraud_detection.py",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 352,
+      "subject": "python training/bert_fraud_detection.py",
+      "message": "File exists in this snapshot.",
+      "evidence": "training/bert_fraud_detection.py",
+      "suggestions": []
+    },
+    {
+      "rule": "RR001",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 456,
+      "subject": "runs/LLMsStats/llm_size_performance.png",
+      "message": "File exists in this snapshot.",
+      "evidence": "runs/LLMsStats/llm_size_performance.png",
+      "suggestions": []
+    },
+    {
+      "rule": "RR001",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 458,
+      "subject": "runs/LLMsStats/llm_speed_quality_scatter.png",
+      "message": "File exists in this snapshot.",
+      "evidence": "runs/LLMsStats/llm_speed_quality_scatter.png",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 515,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 539,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 561,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 619,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 631,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 642,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 655,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 719,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 726,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 773,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 783,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 793,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 806,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 817,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 830,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 843,
+      "subject": "unlabelled block",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 881,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 891,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 904,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 913,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 928,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 941,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 960,
+      "subject": "python",
+      "message": "Non-shell code block is not analyzed.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 1058,
+      "subject": "jupyter notebook demos/test-unified-bart-joint-enhanced.ipynb",
+      "message": "Command is outside the supported static checks.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 1061,
+      "subject": "python demos/quick_demo.py",
+      "message": "File exists in this snapshot.",
+      "evidence": "demos/quick_demo.py",
+      "suggestions": []
+    },
+    {
+      "rule": "RR000",
+      "outcome": "skip",
+      "file": "README.md",
+      "line": 1064,
+      "subject": "jupyter notebook demos/fraud_detection_demo.ipynb",
+      "message": "Command is outside the supported static checks.",
+      "evidence": "",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 1067,
+      "subject": "python demos/fraud_detection_demo.py",
+      "message": "File exists in this snapshot.",
+      "evidence": "demos/fraud_detection_demo.py",
+      "suggestions": []
+    },
+    {
+      "rule": "RR003",
+      "outcome": "pass",
+      "file": "README.md",
+      "line": 1070,
+      "subject": "python training/baseline_fraud_detection.py",
+      "message": "File exists in this snapshot.",
+      "evidence": "training/baseline_fraud_detection.py",
+      "suggestions": []
+    }
+  ],
+  "scope": "Static snapshot checks only. Commands are never executed. File existence and script declarations do not prove runtime success. Unsupported constructs are explicitly skipped."
+}
