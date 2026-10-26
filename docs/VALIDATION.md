@@ -34,3 +34,11 @@ CI repeats verification on Node 22/24 Linux and Node 24 macOS/Windows, checks th
 ## Demo
 
 [The GIF](demo.gif) is a real local Chromium recording, converted from screen video. [Provenance](demo-recording.json) records time, source hashes, viewport, output hashes and duration. The interactive examples are labelled fictional snapshots whose results are calculated by the shared engine. They do not claim live remote repository scanning. The MP4 is supplied as a release asset.
+
+## HTML profile-media support (v0.2.0)
+
+On 26 October 2026, an internal run against the public profile at `b3a9c7ea0e7b4a74a0727360d45041c6e89dc4e5` compared the published v0.1.1 CLI with the new shared engine. The former checked no references in the HTML-based profile; the new engine checks all 7 local image references (7 passes, 0 errors), while 87 external/unsupported references and commands remain explicitly unverified. Removing the actual `assets/demo-proof.gif` in the temporary checkout leaves v0.1.1 at exit 0 but makes both the new bundled CLI and Action fail at its README line; the asset is then restored. This is a coverage comparison on one known snapshot, not an accuracy benchmark or a claim that the complete profile is verified. The tool does not decode GIFs or execute HTML.
+
+The expanded suite covers quoted/unquoted HTML attributes, entities and URI encoding, multiline/CRLF/non-BMP locations, inline and fenced code, comments, inert containers, unsupported resource attributes, base-URL abstention, dynamic/empty values and outside-root refusal. Browser tests include the Profile media example and ensure supplied HTML is rendered as report text, never executed.
+
+Automatic review identified multiline blockquote prefixes that hid HTML attributes and unresolved Liquid tag URLs that were incorrectly treated as invalid URL encoding. Both were reproduced as failing regressions, then fixed by using Markdown AST HTML values (retaining original line counts) and explicit Liquid abstention. Nested list/quote and CRLF cases are included.

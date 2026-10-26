@@ -23,3 +23,11 @@ test('conditional commands display honest partial coverage in the browser',async
  await page.goto('');await page.getByRole('textbox',{name:'README source'}).fill('```bash\nif false\nthen\npython optional.py\nfi\n```');
  await page.getByRole('button',{name:'Run check'}).click();await expect(page.locator('#status-pill')).toHaveText('Partial coverage');await expect(page.locator('#result-summary')).toContainText('NOT CHECKED');await expect(page.locator('#findings')).toContainText('Shell control flow is not simulated');await expect(page.locator('#findings .error')).toHaveCount(0);
 });
+
+test('HTML profile references share the engine without rendering supplied markup',async({page})=>{
+ await page.goto('');await page.getByRole('button',{name:'Profile media',exact:true}).click();await expect(page.locator('#status-pill')).toHaveText('Needs attention');
+ await expect(page.locator('#findings')).toContainText('assets/preview.gif');await expect(page.locator('#findings')).toContainText('LINE 3');
+ await page.getByRole('button',{name:'Corrected',exact:true}).click();await expect(page.locator('#status-pill')).toHaveText('Checked');
+ await page.getByRole('textbox',{name:'README source'}).fill('<img src="missing.png" onerror="window.HTML_EXECUTED=true">');await page.getByRole('button',{name:'Run check'}).click();await expect(page.locator('#status-pill')).toHaveText('Needs attention');
+ expect(await page.locator('#findings img').count()).toBe(0);expect(await page.evaluate(()=>(window as unknown as {HTML_EXECUTED?:boolean}).HTML_EXECUTED)).toBeUndefined();
+});

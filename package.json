@@ -1,6 +1,6 @@
 {
   "name": "@rockenzo/readme-reality",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Catch broken quickstarts before your users do. Offline README checks with line-level repository evidence.",
   "type": "module",
   "engines": {
@@ -47,10 +47,11 @@
     "@playwright/test": "1.64.1",
     "@types/node": "26.6.5",
     "esbuild": "0.28.2",
+    "parse5": "8.0.1",
+    "remark-parse": "11.0.0",
     "tsx": "4.23.15",
     "typescript": "7.0.2",
-    "vite": "8.3.5",
-    "remark-parse": "11.0.0",
-    "unified": "11.0.5"
+    "unified": "11.0.5",
+    "vite": "8.3.5"
   }
 }

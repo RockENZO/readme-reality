@@ -16,5 +16,11 @@ export const examples: {id:string;name:string;subtitle:string;broken:string;fixe
     broken:'# Studio\n\n```sh\ncd web\npnpm run preview\n```\n\n```bash\npython -m streamlit run app.py\npython "$TRAIN_SCRIPT"\n```\n\n[API notes][api]\n\n[api]: docs/api.md\n',
     fixed:'# Studio\n\n```sh\ncd web\npnpm run dev\n```\n\n```bash\npython -m streamlit run app.py\npython "$TRAIN_SCRIPT"\n```\n\n[API notes][api]\n\n[api]: docs/api.md\n',
     files:{'web/package.json':'{"scripts":{"dev":"vite"}}','docs/api.md':'# API'}
+  },
+  {
+    id:'html',name:'Profile media',subtitle:'An HTML card. A renamed demo recording.',
+    broken:'# Toolkit\n\n<a href="docs/guide.md"><img src="assets/preview.gif" alt="Recorded example"></a>\n',
+    fixed:'# Toolkit\n\n<a href="docs/guide.md"><img src="assets/walkthrough.gif" alt="Recorded example"></a>\n',
+    files:{'docs/guide.md':'# Guide','assets/walkthrough.gif':'fictional file-presence fixture, not an image validation'}
   }
 ];
