@@ -1,5 +1,6 @@
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
+import { htmlReferences } from './html.js';
 
 export type Kind = 'file' | 'directory' | 'missing' | 'blocked';
 export interface Workspace {
@@ -19,7 +20,7 @@ export interface Report {
 }
 interface Ast {
   type: string; url?: string; identifier?: string; value?: string; lang?: string | null;
-  position?: { start: { line: number } }; children?: Ast[];
+  position?: { start: { line: number; offset?: number }; end?: { offset?: number } }; children?: Ast[];
 }
 export const MAX_TEXT_BYTES = 2_000_000;
 export const SCOPE = 'Static snapshot checks only. Commands are never executed. File existence and script declarations do not prove runtime success. Unsupported constructs are explicitly skipped.';
@@ -82,16 +83,24 @@ export async function analyze(workspace: Workspace, readme = 'README.md'): Promi
     if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(target)) { add('RR004', 'skip', line, subject, 'Remote or scheme-based requirements are not fetched or checked.'); return; }
     await checkFile('RR004', cwd, target, line, subject);
   }
+  async function checkReference(url: string, line: number) {
+    if (/^(?:[a-z][a-z\d+.-]*:|\/|#)/i.test(url)) { add('RR001', 'skip', line, url, 'External, anchor-only or host-root URL; not fetched.'); return; }
+    let target: string;
+    try { target = decodeURIComponent(url.split(/[?#]/)[0]!); } catch { add('RR001', 'error', line, url, 'Invalid URL encoding.'); return; }
+    const path = resolvePath(parent(file!), target);
+    if (path && await workspace.inspect(path) === 'directory') add('RR001', 'pass', line, url, 'Directory exists; anchors and rendering are not checked.', path);
+    else await checkFile('RR001', parent(file!), target, line, url);
+  }
   for (const n of nodes) {
     if (!['link', 'image', 'linkReference', 'imageReference'].includes(n.type)) continue;
     const url = n.url ?? definitions.get(n.identifier ?? ''); const line = n.position?.start.line ?? 1;
     if (!url) { add('RR001', 'skip', line, n.identifier ?? '', 'Reference destination is unavailable.'); continue; }
-    if (/^(?:[a-z][a-z\d+.-]*:|\/|#)/i.test(url)) { add('RR001', 'skip', line, url, 'External, anchor-only or host-root URL; not fetched.'); continue; }
-    let target: string;
-    try { target = decodeURIComponent(url.split(/[?#]/)[0]!); } catch { add('RR001', 'error', line, url, 'Invalid URL encoding.'); continue; }
-    const path = resolvePath(parent(file), target);
-    if (path && await workspace.inspect(path) === 'directory') add('RR001', 'pass', line, url, 'Directory exists; anchors and rendering are not checked.', path);
-    else await checkFile('RR001', parent(file), target, line, url);
+    await checkReference(url,line);
+  }
+  const htmlSpans=nodes.flatMap(n=>n.type==='html'&&typeof n.position?.start.offset==='number'&&typeof n.position.end?.offset==='number' ? [{start:n.position.start.offset,end:n.position.end.offset}] : []);
+  for(const ref of htmlReferences(markdown,htmlSpans)) {
+    if(ref.skip)add('RR001','skip',ref.line,ref.url,ref.skip);
+    else await checkReference(ref.url,ref.line);
   }
   for (const block of nodes.filter(n => n.type === 'code')) {
     if (!block.value?.trim()) continue;

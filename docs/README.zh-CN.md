@@ -5,7 +5,7 @@
 离线检查本地链接、npm/pnpm/yarn 声明脚本、Python 脚本路径与依赖文件。输出行号、检查依据和真实候选路径。不调用模型、不需要密钥、不上传代码，也不会执行 README 命令。
 
 - [互动演示](https://rockenzo.github.io/readme-reality/)使用明确标注的虚构快照，结果由真实共享引擎计算。
-- Node.js 22.12+；从 GitHub Release 下载并解压 `readme-reality-0.1.1.tgz`。
+- Node.js 22.12+；从 GitHub Release 下载并解压 `readme-reality-0.2.0.tgz`。
 - 在解压的 `package` 目录中运行 `node dist/cli.mjs check /你的仓库`，或添加 `--format json`。
 - 目前没有发布 npm 包，不要使用假定存在的 npx 安装入口。
 
@@ -16,3 +16,7 @@
 退出码 0 表示没有确认错误，也可能只是部分覆盖；1 表示发现快照错误；2 表示输入或工具错误。不会自动修改文件，不读取密钥内容，不跟随符号链接，不访问仓库外路径。请扫描稳定的 checkout；它不是操作系统沙箱。
 
 **文件或脚本声明存在，不等于命令能成功运行。** 完整命令、Action 使用方式、规则和限制见[英文说明](../README.md)。
+
+## HTML 卡片中的本地引用
+
+支持原始 HTML 中的 `a[href]` 与 `img[src]`，沿用 Markdown 的仓库内路径规则、实体解码和属性所在行号。注释、代码示例、脚本/样式文本及 template 内容不作为真实引用；动态 URL、空属性、`srcset` 等其他属性和外部命名空间明确显示未检查。出现 HTML `base` 时不猜测 HTML URL 的解析方式，相关引用保留未检查。不会执行 HTML、访问外部链接或验证图片内容。网页新增 Profile media 示例，可比较缺失 GIF 路径与修复后的快照。

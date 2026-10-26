@@ -2,9 +2,9 @@
 
 **Catch broken quickstarts before your users do.**
 
-An offline README checker. Find missing local references, undeclared package scripts and missing Python/requirements paths—with line numbers and repository evidence. No model, API key or code upload. It never executes README commands.
+An offline README checker. Find missing Markdown/HTML local references, undeclared package scripts and missing Python/requirements paths—with line numbers and repository evidence. No model, API key or code upload. It never executes README commands.
 
-[Try the interactive examples](https://rockenzo.github.io/readme-reality/) · [Download v0.1.1](https://github.com/RockENZO/readme-reality/releases/tag/v0.1.1) · [中文说明](docs/README.zh-CN.md)
+[Try the interactive examples](https://rockenzo.github.io/readme-reality/) · [Download v0.2.0](https://github.com/RockENZO/readme-reality/releases/tag/v0.2.0) · [中文说明](docs/README.zh-CN.md)
 
 ![Real browser walkthrough: missing references, repository evidence and corrected snapshots](docs/demo.gif)
 
@@ -14,7 +14,7 @@ The browser walkthrough uses labelled fictional snapshots and the same determini
 
 Requires **Node.js 22.12+**. No project dependencies are installed by the checker.
 
-Download `readme-reality-0.1.1.tgz` from the release, extract it, and run the bundled entry point against your checkout:
+Download `readme-reality-0.2.0.tgz` from the release, extract it, and run the bundled entry point against your checkout:
 
 ```bash
 # From the extracted release's package directory:
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: RockENZO/readme-reality@v0.1.1
+      - uses: RockENZO/readme-reality@v0.2.0
         with:
           root: .
           readme: README.md
@@ -62,7 +62,7 @@ For stronger version pinning, replace the release tag with its reviewed full com
 
 | Rule | Supported reference | Evidence |
 | --- | --- | --- |
-| RR001 | Markdown links/images, including reference-style links | Local file or directory exists; link paths resolve relative to the Markdown document |
+| RR001 | Markdown links/images (including reference-style links), HTML `a[href]` and `img[src]` | Local file or directory exists; link paths resolve relative to the Markdown document |
 | RR002 | `npm run NAME`, `pnpm run NAME`, `yarn run NAME` | Nonempty string in `scripts` of the nearest in-root ancestor `package.json` |
 | RR003 | `python path.py`, `python3 "path with spaces.py"` | Regular script file exists |
 | RR004 | `pip install -r path`, `--requirement path`, `--requirement=path`; also `python -m pip` | Requirements file exists |
@@ -71,7 +71,7 @@ For stronger version pinning, replace the release tag with its reviewed full com
 
 Shell commands are parsed only in `bash`, `sh`, `shell`, `console` or `zsh` fenced blocks. Each block starts at the repository root; state is not carried between blocks. Links in another Markdown file still resolve relative to that file. Only that selected Markdown file is scanned, not every linked document.
 
-External links, host-root URLs and fragment-only references are not fetched; anchors are not validated. HTML links/images, indented code and package-manager shorthand are not supported. Literal unquoted trailing backslash continuations are joined, preserving the first source line. Complex shell (including conditions, loops and function definitions), variables, substitutions, workspace selectors, package-manager option variants (including directory overrides), previous-directory navigation (`cd -`), npm built-in/default lifecycle behavior and third-party Python modules are skipped. Environment-prefixed setup commands are not simulated. A complex shell line or a simulated setup operation such as `git clone` makes subsequent working-directory-dependent checks in that block unknown. After encountering shell control flow, the rest of that code block remains unverified, including commands following a closing `fi` or `done`; no branch is evaluated. Use a separate root-relative block for subsequent supported checks.
+External links, host-root URLs and fragment-only references are not fetched; anchors are not validated. HTML `a[href]` and `img[src]` use the same local-path checks, with entity decoding and original attribute line numbers. Comments, code samples, raw-text containers and inert template content are excluded. Dynamic HTML URLs, empty attributes, other resource attributes (including `srcset`) and foreign namespaces are explicitly unverified. An HTML `base` element makes HTML references unverified rather than guessing URL resolution. This is not HTML rendering, image decoding, CSS/JS checking or a network link checker. Indented code and package-manager shorthand are not supported. Literal unquoted trailing backslash continuations are joined, preserving the first source line. Complex shell (including conditions, loops and function definitions), variables, substitutions, workspace selectors, package-manager option variants (including directory overrides), previous-directory navigation (`cd -`), npm built-in/default lifecycle behavior and third-party Python modules are skipped. Environment-prefixed setup commands are not simulated. A complex shell line or a simulated setup operation such as `git clone` makes subsequent working-directory-dependent checks in that block unknown. After encountering shell control flow, the rest of that code block remains unverified, including commands following a closing `fi` or `done`; no branch is evaluated. Use a separate root-relative block for subsequent supported checks.
 
 Missing files mean **absent from this checked-out snapshot**. Generated/downloaded artifacts and environment-dependent paths may need documented prerequisites; the checker does not simulate them. Existing candidates are hints, never automatic fixes.
 

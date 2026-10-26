@@ -25,3 +25,9 @@ test('CLI and Action preserve coverage instead of failing inactive shell branche
  const output=join(d,'output');const action=spawnSync(process.execPath,[...nodeArgs,'src/action.ts'],{encoding:'utf8',env:{...process.env,GITHUB_WORKSPACE:d,INPUT_ROOT:'.',GITHUB_OUTPUT:output}});
  assert.equal(action.status,0);assert.ok(!action.stdout.includes('::error'));assert.match(await readFile(output,'utf8'),/errors=0\nskipped=4\nstatus=partial/);
 }));
+test('HTML reference findings agree across core, CLI and Action',()=>fixture(async d=>{
+ await mkdir(join(d,'docs'));await mkdir(join(d,'assets'));await writeFile(join(d,'docs','guide.md'),'# Guide');await writeFile(join(d,'README.md'),'<a href="docs/guide.md">\n<img src="assets/demo.gif">\n</a>');
+ const expected=await analyze(await diskWorkspace(d));const p=cli(d,['--format','json']);assert.equal(p.status,1);assert.deepEqual(JSON.parse(p.stdout),expected);assert.equal(expected.findings.find(f=>f.outcome==='error')!.line,2);
+ const env={...process.env,GITHUB_WORKSPACE:d,INPUT_ROOT:'.',GITHUB_OUTPUT:join(d,'output'),GITHUB_STEP_SUMMARY:join(d,'summary')};const action=()=>spawnSync(process.execPath,[...nodeArgs,'src/action.ts'],{encoding:'utf8',env});const negative=action();assert.equal(negative.status,1);assert.match(negative.stdout,/::error file=README.md,line=2,title=RR001::/);
+ await writeFile(join(d,'assets','demo.gif'),'presence only, no image decoding');assert.equal(cli(d).status,0);assert.equal(action().status,0);
+}));

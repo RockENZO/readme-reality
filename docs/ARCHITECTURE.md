@@ -30,3 +30,7 @@ The core is intentionally conservative. There is no general shell interpreter, m
 Node22.12+ is the supported CLI baseline; the Action uses GitHub's Node24 runtime. The browser and Node adapters return the same report schema. Runtime parser code is bundled; build dependencies are pinned by package-lock. Third-party notices accompany releases.
 
 This is read-only application logic, not an isolation boundary against a malicious process simultaneously replacing parent directories. Use stable checkouts. Symlink refusal, regular-file checks and before/after file metadata checks reduce accidental/racy reads but do not replace OS isolation.
+
+## HTML references (v0.2.0)
+
+`src/html.ts` masks non-HTML Markdown while preserving offsets/newlines, then parses raw HTML using pinned parse5. This keeps inline tag context across Markdown AST nodes and prevents fenced/inline code from becoming references. An iterative tree walk extracts only supported HTML URL attributes; entity decoding and attribute locations come from the parser. Inert children are excluded. Unsupported attributes and base semantics abstain. Core feeds supported URLs to the same repository-contained RR001 path rule used by Markdown; CLI, bundled Action and browser remain one engine. No HTML is executed or inserted into a DOM.
