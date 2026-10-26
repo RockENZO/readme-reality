@@ -97,7 +97,7 @@ export async function analyze(workspace: Workspace, readme = 'README.md'): Promi
     if (!url) { add('RR001', 'skip', line, n.identifier ?? '', 'Reference destination is unavailable.'); continue; }
     await checkReference(url,line);
   }
-  const htmlSpans=nodes.flatMap(n=>n.type==='html'&&typeof n.position?.start.offset==='number'&&typeof n.position.end?.offset==='number' ? [{start:n.position.start.offset,end:n.position.end.offset}] : []);
+  const htmlSpans=nodes.flatMap(n=>n.type==='html'&&typeof n.value==='string'&&typeof n.position?.start.offset==='number'&&typeof n.position.end?.offset==='number' ? [{start:n.position.start.offset,end:n.position.end.offset,html:n.value}] : []);
   for(const ref of htmlReferences(markdown,htmlSpans)) {
     if(ref.skip)add('RR001','skip',ref.line,ref.url,ref.skip);
     else await checkReference(ref.url,ref.line);

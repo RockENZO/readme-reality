@@ -1,9 +1,10 @@
 import { parseFragment, type DefaultTreeAdapterTypes as Html } from 'parse5';
 
-export interface HtmlSpan { start: number; end: number }
+export interface HtmlSpan { start: number; end: number; html: string }
 export interface HtmlReference { url: string; line: number; skip?: string }
 
 /** Parse only Markdown's raw-HTML spans, retaining their original line numbers.
+ * Parsed HTML values omit Markdown quote/list prefixes without changing lines.
  * Masking other Markdown also preserves context across inline <code> tags while
  * excluding fenced/indented code and backtick literals from HTML interpretation.
  */
@@ -11,7 +12,7 @@ export function htmlReferences(markdown: string, spans: HtmlSpan[]): HtmlReferen
   if (!spans.length) return [];
   const parts: string[] = []; let cursor = 0;
   for (const span of spans.slice().sort((a,b) => a.start-b.start)) {
-    parts.push(markdown.slice(cursor,span.start).replace(/[^\r\n]/g,' '),markdown.slice(span.start,span.end));
+    parts.push(markdown.slice(cursor,span.start).replace(/[^\r\n]/g,' '),span.html);
     cursor=span.end;
   }
   parts.push(markdown.slice(cursor).replace(/[^\r\n]/g,' '));
@@ -30,7 +31,7 @@ export function htmlReferences(markdown: string, spans: HtmlSpan[]): HtmlReferen
         const supported=node.namespaceURI==='http://www.w3.org/1999/xhtml' && !attr.namespace && (node.tagName==='a'&&attr.name==='href'||node.tagName==='img'&&attr.name==='src');
         const skip=!supported ? 'Only HTML a[href] and img[src] are supported; this attribute is not checked.'
           : !url ? 'Empty HTML URL; no local file target is checked.'
-          : /\{\{|\$\{|<%/.test(url) ? 'Dynamic HTML URL is not resolved.' : undefined;
+          : /\{\{|\{%|\$\{|<%/.test(url) ? 'Dynamic HTML URL is not resolved.' : undefined;
         refs.push({url,line,...(skip?{skip}:{})});
       }
     }
