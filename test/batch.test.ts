@@ -72,3 +72,14 @@ test('human summaries identify documents with no supported checks',async()=>{
  const r=await analyzeMany(memoryWorkspace({'README.md':'[self](README.md)','empty.md':'# Heading'}),['README.md','empty.md']);
  assert.equal(r.status,'partial');assert.match(human(r),/empty\.md: partial \(0 passed, 0 errors, 0 not checked\)/);
 });
+
+test('large supported-size documents retain findings without argument-spread overflow',async()=>{
+ const commands=130_000;
+ const markdown='```sh\n'+'echo fixture\n'.repeat(commands)+'```';
+ assert.ok(Buffer.byteLength(markdown)<2_000_000);
+ const report=await analyzeMany(memoryWorkspace({'README.md':markdown,'other.md':'# Empty'}),['README.md','other.md']);
+ assert.equal(report.summary.inputErrors,0);assert.equal(report.summary.skipped,commands);
+ assert.equal(report.summary.documents,2);assert.equal(report.documents.length,2);
+ assert.equal(report.findings.length,commands);assert.equal(report.findings.at(-1)!.line,commands+1);
+ assert.ok(report.documents.every(d=>d.status==='partial'));
+});

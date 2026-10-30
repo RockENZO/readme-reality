@@ -216,7 +216,7 @@ export async function analyzeMany(workspace: Workspace, readmes: readonly string
     try {
       const result = await analyze(workspace, file);
       documents.push({ file: result.file, status: result.status, summary: result.summary });
-      findings.push(...result.findings);
+      for (const finding of result.findings) findings.push(finding);
       for (const key of ['checked', 'passed', 'errors', 'skipped'] as const) totals[key] += result.summary[key];
     } catch (error) {
       totals.inputErrors++;
