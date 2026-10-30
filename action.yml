@@ -9,15 +9,19 @@ inputs:
     description: Repository directory inside GITHUB_WORKSPACE.
     default: '.'
   readme:
-    description: Markdown path relative to root.
+    description: One Markdown path per line, relative to root (maximum 25; no globbing or recursive discovery).
     default: README.md
 outputs:
+  documents:
+    description: Number of unique explicitly selected documents.
+  input-errors:
+    description: Documents that could not be inspected. Any such failure exits 2.
   errors:
     description: Number of confirmed errors.
   skipped:
     description: Number of unsupported references or commands.
   status:
-    description: passed, failed, or partial. A zero exit code is not a runtime verification.
+    description: passed, failed, partial, or invalid (batch input failures). A zero exit code is not a runtime verification.
 runs:
   using: node24
   main: action/index.cjs
