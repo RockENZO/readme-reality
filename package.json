@@ -1,6 +1,6 @@
 {
   "name": "@rockenzo/readme-reality",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Catch broken quickstarts before your users do. Offline README checks with line-level repository evidence.",
   "type": "module",
   "engines": {

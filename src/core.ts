@@ -191,3 +191,39 @@ export function memoryWorkspace(files: Record<string, string>): Workspace {
     async list(path) { const prefix = path === '.' ? '' : path + '/'; return Object.keys(files).filter(k => k.startsWith(prefix) && !k.slice(prefix.length).includes('/')).map(k => k.slice(prefix.length)); }
   };
 }
+
+export const MAX_DOCUMENTS = 25;
+export type BatchDocument =
+  | { file: string; status: Report['status']; summary: Report['summary'] }
+  | { file: string; status: 'invalid'; inputError: string };
+export interface BatchReport {
+  schemaVersion: 1; kind: 'batch'; status: Report['status'] | 'invalid';
+  summary: Report['summary'] & { documents: number; inputErrors: number };
+  documents: BatchDocument[]; findings: Finding[]; scope: string;
+}
+/** Explicit selections only: no globbing, recursion, command execution or network. */
+export async function analyzeMany(workspace: Workspace, readmes: readonly string[]): Promise<BatchReport> {
+  if (!Array.isArray(readmes) || !readmes.length || readmes.length > MAX_DOCUMENTS
+      || readmes.some(path => typeof path !== 'string')) {
+    throw new Error(`Select between 1 and ${MAX_DOCUMENTS} Markdown paths.`);
+  }
+  // Lexical aliases are counted once; preserve first-selection order. Invalid
+  // paths still get an input-error entry, without an outside-root file read.
+  const files = [...new Set(readmes.map(path => resolvePath('.', path) ?? path))];
+  const documents: BatchDocument[] = [], findings: Finding[] = [];
+  const totals = { checked: 0, passed: 0, errors: 0, skipped: 0, documents: files.length, inputErrors: 0 };
+  for (const file of files) {
+    try {
+      const result = await analyze(workspace, file);
+      documents.push({ file: result.file, status: result.status, summary: result.summary });
+      findings.push(...result.findings);
+      for (const key of ['checked', 'passed', 'errors', 'skipped'] as const) totals[key] += result.summary[key];
+    } catch (error) {
+      totals.inputErrors++;
+      documents.push({ file, status: 'invalid', inputError: error instanceof Error ? error.message : 'Input/tool error' });
+    }
+  }
+  const status = totals.inputErrors ? 'invalid' : totals.errors ? 'failed'
+    : documents.some(d => d.status === 'partial') ? 'partial' : 'passed';
+  return { schemaVersion: 1, kind: 'batch', status, summary: totals, documents, findings, scope: SCOPE };
+}

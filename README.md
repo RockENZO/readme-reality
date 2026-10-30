@@ -4,7 +4,7 @@
 
 An offline README checker. Find missing Markdown/HTML local references, undeclared package scripts and missing Python/requirements paths—with line numbers and repository evidence. No model, API key or code upload. It never executes README commands.
 
-[Try the interactive examples](https://rockenzo.github.io/readme-reality/) · [Download v0.2.0](https://github.com/RockENZO/readme-reality/releases/tag/v0.2.0) · [中文说明](docs/README.zh-CN.md)
+[Try the interactive examples](https://rockenzo.github.io/readme-reality/) · [Download v0.3.0](https://github.com/RockENZO/readme-reality/releases/tag/v0.3.0) · [中文说明](docs/README.zh-CN.md)
 
 ![Real browser walkthrough: missing references, repository evidence and corrected snapshots](docs/demo.gif)
 
@@ -14,7 +14,7 @@ The browser walkthrough uses labelled fictional snapshots and the same determini
 
 Requires **Node.js 22.12+**. No project dependencies are installed by the checker.
 
-Download `readme-reality-0.2.0.tgz` from the release, extract it, and run the bundled entry point against your checkout:
+Download `readme-reality-0.3.0.tgz` from the release, extract it, and run the bundled entry point against your checkout:
 
 ```bash
 # From the extracted release's package directory:
@@ -22,6 +22,18 @@ node dist/cli.mjs check /path/to/your-repository
 node dist/cli.mjs check /path/to/your-repository --format json
 node dist/cli.mjs check /path/to/your-repository --readme docs/start.md
 ```
+
+### Explicit multi-document checks
+
+Repeat `--readme` to inspect several Markdown files without silently losing earlier selections:
+
+```bash
+node dist/cli.mjs check /path/to/your-repository --readme README.md --readme docs/start.md --format json
+```
+
+At most **25 supplied paths** are accepted. Lexically equivalent paths such as `README.md` and `./README.md` are counted once, in first-selection order. There is no glob expansion, directory crawl or automatic traversal of linked documents. Each selected document keeps its own filename/line numbers and link base; every shell fence still starts at the repository root. Empty or unsupported documents retain partial coverage.
+
+With two or more `--readme` options, JSON adds `kind: "batch"`, per-document `documents` entries and a combined `findings` list. Aggregate counts include `documents` and `inputErrors`; unreadable, missing, oversized, outside-root or symlinked selections are reported as `invalid` entries while the remaining documents are still checked. Any input failure makes the overall status `invalid` and exits **2**, even when confirmed findings also exist. Otherwise existing error/partial/passed behavior applies. The default and one-option CLI output retain the original single-document schema. Library embedders can call the exported `analyzeMany(workspace, paths)` with the same engine and workspace contract.
 
 The planned npm package name is `@rockenzo/readme-reality`. **This release is distributed through GitHub Releases; the npm package is not published.** Do not use an assumed `npx` installation until a later release explicitly announces npm availability.
 
@@ -50,13 +62,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: RockENZO/readme-reality@v0.2.0
+      - uses: RockENZO/readme-reality@v0.3.0
         with:
           root: .
-          readme: README.md
+          readme: |
+            README.md
+            docs/start.md
 ```
 
-For stronger version pinning, replace the release tag with its reviewed full commit SHA. The Action uses Node 24, runs the same engine, creates workflow annotations and a Job Summary, and outputs `errors`, `skipped` and `status`. It does not post comments, commit changes, install target-project dependencies or open PRs. Subdirectory roots must stay inside the checked-out workspace.
+For stronger version pinning, replace the release tag with its reviewed full commit SHA. The Action uses Node 24, runs the same engine, creates workflow annotations and a Job Summary, and outputs `errors`, `skipped`, `status`, `documents` and `input-errors`. Use one path per line in `readme`; blank lines are ignored and surrounding whitespace is trimmed. Select only documents actually present in your repository. It does not post comments, commit changes, install target-project dependencies or open PRs. Subdirectory roots must stay inside the checked-out workspace.
 
 ## What is checked?
 
@@ -69,7 +83,7 @@ For stronger version pinning, replace the release tag with its reviewed full com
 | RR005 | Simple literal `cd directory` | Directory exists and becomes the working directory for the rest of that block |
 | RR000 | Unsupported commands or code blocks | Explicitly recorded as not checked |
 
-Shell commands are parsed only in `bash`, `sh`, `shell`, `console` or `zsh` fenced blocks. Each block starts at the repository root; state is not carried between blocks. Links in another Markdown file still resolve relative to that file. Only that selected Markdown file is scanned, not every linked document.
+Shell commands are parsed only in `bash`, `sh`, `shell`, `console` or `zsh` fenced blocks. Each block starts at the repository root; state is not carried between blocks. Links in another Markdown file still resolve relative to that file. Only explicitly selected Markdown files are scanned; linked documents are not followed automatically.
 
 External links, host-root URLs and fragment-only references are not fetched; anchors are not validated. HTML `a[href]` and `img[src]` use the same local-path checks, with entity decoding and original attribute line numbers. Comments, code samples, raw-text containers and inert template content are excluded. Dynamic HTML URLs, empty attributes, other resource attributes (including `srcset`) and foreign namespaces are explicitly unverified. An HTML `base` element makes HTML references unverified rather than guessing URL resolution. This is not HTML rendering, image decoding, CSS/JS checking or a network link checker. Indented code and package-manager shorthand are not supported. Literal unquoted trailing backslash continuations are joined, preserving the first source line. Complex shell (including conditions, loops and function definitions), variables, substitutions, workspace selectors, package-manager option variants (including directory overrides), previous-directory navigation (`cd -`), npm built-in/default lifecycle behavior and third-party Python modules are skipped. Environment-prefixed setup commands are not simulated. A complex shell line or a simulated setup operation such as `git clone` makes subsequent working-directory-dependent checks in that block unknown. After encountering shell control flow, the rest of that code block remains unverified, including commands following a closing `fi` or `done`; no branch is evaluated. Use a separate root-relative block for subsequent supported checks.
 
@@ -81,13 +95,13 @@ Missing files mean **absent from this checked-out snapshot**. Generated/download
 - `1`: at least one confirmed snapshot error.
 - `2`: input or tool failure, such as a missing/oversized README or invalid CLI arguments.
 
-JSON has `schemaVersion: 1`, the selected `file`, `status` (`passed`, `failed`, `partial`), `summary` and ordered `findings`. Each finding includes its rule, outcome, README line, subject, evidence and candidate suggestions. An input with no supported references has partial coverage, not a claim of verification.
+Single-document JSON has `schemaVersion: 1`, the selected `file`, `status` (`passed`, `failed`, `partial`), `summary` and ordered `findings`. Each finding includes its rule, outcome, README line, subject, evidence and candidate suggestions. An input with no supported references has partial coverage, not a claim of verification.
 
 **A green check does not prove the quickstart runs.** The checker does not execute commands, validate installed modules, interpret application behavior, assess model quality or verify a checkpoint's contents. A Git LFS pointer existing on disk does not demonstrate that model weights are available.
 
 ## Privacy and boundaries
 
-The scanning engine makes no network requests and sends no telemetry. Dependency installation, GitHub Actions and opening the hosted demo are separate network activities. Only the selected Markdown and necessary `package.json` files are read as text; file evidence is metadata. Symlinks and special files are not followed. Outside-root paths are refused. Text inputs are limited to 2 MB each; invalid UTF-8 is rejected by the disk adapter.
+The scanning engine makes no network requests and sends no telemetry. Dependency installation, GitHub Actions and opening the hosted demo are separate network activities. Only explicitly selected Markdown files and necessary `package.json` files are read as text; file evidence is metadata. Symlinks and special files are not followed. Outside-root paths are refused. Text inputs are limited to 2 MB each, with at most 25 explicit document selections per batch; invalid UTF-8 is rejected by the disk adapter.
 
 This is a static checker, not an OS sandbox. Scan a stable checkout: concurrent changes to directory topology are outside its security guarantee. Do not intentionally pass credential files or untrusted mounts as input. The checker has no write/fix mode. CI reports do not include script bodies or file contents.
 

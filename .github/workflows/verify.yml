@@ -33,6 +33,10 @@ jobs:
         run: bash test/package-smoke.sh
       - name: Verify this README with the packaged Action
         uses: ./
+        with:
+          readme: |
+            README.md
+            docs/README.zh-CN.md
   browser:
     runs-on: ubuntu-latest
     timeout-minutes: 10
